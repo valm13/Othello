@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout :: layout(~{::title}, ~{::content})}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:fragment="title">Utilisateurs</title>
+</head>
+<body>
+	<div th:fragment="content">
+		<h1>Gestion des utilisateurs</h1>
+
+		<p>
+			<a th:href="@{/user/add}" class="btn btn-secondary" role="button"
+				aria-pressed="true">Ajouter un utilisateur</a>
+		</p>
+		<table class="table" style="text-align: center;">
+			<thread class="thread-dark">
+			<tr>
+				<th>#</th>
+				<th>Nom</th>
+				<th>Prénom</th>
+				<th>Pseudo</th>
+				<th>Email</th>
+				<th>Modifier</th>
+				<th>Supprimer</th>
+			</tr>
+			</thread>
+			<tbody>
+				<tr th:each="user : ${users}" th:object="${user}">
+					<td th:text="*{id}">id</td>
+					<td th:text="*{name}">Magnan</td>
+					<td th:text="*{firstname}">Valentin</td>
+					<td th:text="*{pseudo}">Pseudo</td>
+					<td th:text="*{email}">test@gmail.com</td>
+					<td><a class="btn btn-danger"
+						th:href="@{|/user/edit/*{id}|}" role="button"><i
+							class="material-icons md-36">edit</i></a></td>
+					<td><a class="btn btn-danger"
+						th:href="@{|/user/delete/*{id}|}" role="button"><i
+							class="material-icons md-36">delete</i></a></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<nav aria-label="Page navigation" th:if="${count > 0}">
+			<ul class="pagination">
+				<li class="page-item"
+					th:classappend="${users.getNumber() == 0} ? disabled"><a
+					class="page-link" href="#"
+					th:href="@{/user/list(page=${users.getNumber() - 1})}">Précédent</a>
+				</li>
+
+				<li class="page-item"
+					th:classappend="${users.getNumber() == page -1} ? active"
+					th:each="page : ${#numbers.sequence(1, users.totalPages)}">
+					<a
+					th:text="${page}" class="page-link" href="#"
+					th:href="@{/user/list(page=${page - 1})}"></a></li>
+
+				<li class="page-item"
+					th:classappend="${users.getNumber() == users.totalPages - 1} ? disabled">
+					<a class="page-link" href="#"
+					th:href="@{/user/list(page=${users.getNumber() + 1})}">Suivant</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</body>
+</html>

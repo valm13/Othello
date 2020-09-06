@@ -1,0 +1,42 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout :: layout(~{::title}, ~{::content})}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:fragment="title">User</title>
+</head>
+<body>
+	<div th:fragment="content">
+		<h1>Gestion des utilisateurs</h1>
+
+		<form action="#" th:action="@{/user/add}" th:object="${user}"
+			method="post">
+			<input type="hidden" th:field="*{id}" />
+			<div class="form-group">
+				<label for="name">Nom</label> <input type="text"
+					class="form-control" id="name" placeholder="Nom"
+					th:field="*{name}">
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nom invalide</div>
+					
+					<label for="firstname">Prénom</label> <input type="text"
+					class="form-control" id="firstname" placeholder="Prénom"
+					th:field="*{firstname}">
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('firstname')}" th:errors="*{firstname}">Prénom invalide</div>
+					
+					<label for="pseudo">Pseudo</label> <input type="text"
+					class="form-control" id="pseudo" placeholder="Pseudo"
+					th:field="*{pseudo}">
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('pseudo')}" th:errors="*{pseudo}">Pseudo invalide</div>
+					
+				<label for="email">Email</label> <input type="email"
+					class="form-control" id="email" placeholder="Email"
+					th:field="*{email}">
+					<div class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email invalide</div>
+				
+				
+			</div>
+			
+			<button type="submit" class="btn btn-primary">Enregistrer</button>
+		</form>
+	</div>
+</body>
+</html>

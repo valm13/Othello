@@ -1,0 +1,66 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout :: layout(~{::title}, ~{::content})}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:fragment="title">Partie</title>
+</head>
+<body>
+	<div th:fragment="content">
+		<h1>Création d'une nouvelle partie</h1>
+
+		<form action="#" th:action="@{/party/add}" th:object="${party}"
+			method="post">
+			<input type="hidden" th:field="*{id}" />
+			<div class="form-group">
+			
+					<div class="alert alert-danger" th:if="${erreur != null}" th:text="${erreur}">Si les 2 joueurs sont les mêmes, affichez texte de l'erreur</div>
+
+				<div class="form-group">
+					<label for="name">Nom de la partie</label> <input type="text"
+						class="form-control" id="name" placeholder="Nom de la partie"
+						th:field="*{name}">
+					<div class="alert alert-danger"
+						th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Nom
+						de partie invalide</div>
+				</div>
+
+				<div class="form-group">
+					<label for="name">Joueur noir</label> <select class="form-control"
+						id="joueur_noir" th:field="*{joueur_noir}">
+						<option th:each="u : ${users}" th:value="${u.id}"
+							th:text="${u.pseudo}">Pseudo J1</option>
+					</select>
+					<div class="alert alert-danger"
+						th:if="${#fields.hasErrors('joueur_noir')}"
+						th:errors="*{joueur_noir}">Joueur noir invalide</div>
+				</div>
+
+				<div class="form-group">
+					<label for="name">Joueur blanc</label> <select class="form-control"
+						id="joueur_blanc" th:field="*{joueur_blanc}">
+						<option th:each="u : ${users}" th:value="${u.id}"
+							th:text="${u.pseudo}">Pseudo J2</option>
+					</select>
+					<div class="alert alert-danger"
+						th:if="${#fields.hasErrors('joueur_blanc')}"
+						th:errors="*{joueur_blanc}">Joueur blanc invalide</div>
+				</div>
+
+				<div class="form-group">
+					<label for="pseudo">Taille</label> <select class="form-control"
+						id="taille" th:field="*{taille}">
+						<option value="8" selected="selected">8 x 8</option>
+						<option value="6">6 x 6</option>
+						<option value="4">4 x 4</option>
+					</select>
+					<div class="alert alert-danger"
+						th:if="${#fields.hasErrors('joueur_noir')}"
+						th:errors="*{joueur_noir}">Joueur noir invalide</div>
+				</div>
+			</div>
+
+			<button type="submit" class="btn btn-primary">Enregistrer</button>
+		</form>
+	</div>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout :: layout(~{::title}, ~{::content})}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:fragment="title">Parties</title>
+</head>
+<body>
+	<div th:fragment="content">
+		<div class="row">
+			<h1 class="offset-2" th:text="|Partie : ${party.name} --> ${party.etat}|">nom --> etat</h1>
+		</div>
+		<table th:if="${party.taille} == 8 or ${party.taille} == 6"class="table-bordered offset-3 grille">
+			<tbody>
+			<tr th:each="item : ${party.grille}">
+				<span th:each="case : ${item}" th:object="${case}">
+				<td class="cases"
+					th:onclick="${party.etat == 'Tour noir' or party.etat == 'Tour blanc' }?'window.location.href = \'' + @{|/party/${party.id}/play/*{row}/*{col}|} + '\''">
+					 <img th:if="*{value} == 1" th:src="@{/image/pion_noir.png}"/>
+					<img th:if="*{value} == 2" th:src="@{/image/pion_blanc.png}"/> 
+				</td>
+				</span>
+			<tr>
+			</tbody>
+		</table>
+		
+		
+		<table th:if="${party.taille} == 4 "class="table-bordered offset-4 grille">
+			<tbody>
+			<tr th:each="item : ${party.grille}">
+				<span th:each="case : ${item}" th:object="${case}">
+				<td class="cases"
+					th:onclick="${party.etat == 'Tour noir' or party.etat == 'Tour blanc' }?'window.location.href = \'' + @{|/party/${party.id}/play/*{row}/*{col}|} + '\''">
+					 <img th:if="*{value} == 1" th:src="@{/image/pion_noir.png}"/>
+					<img th:if="*{value} == 2" th:src="@{/image/pion_blanc.png}"/> 
+				</td>
+				</span>
+			<tr>
+			</tbody>
+		</table>
+		<br>
+		<div class="alert alert-danger" th:if="${erreur != null}" th:text="${erreur}">Si les 2 joueurs sont les mêmes, affichez texte de l'erreur</div>
+		<h1 id="score" class="alert alert-warning" th:if="${score != null}" th:object="${score}" th:text="|Score : *{noirs} pour les noirs à *{blancs} pour les blancs|">Score</h1>
+		<div th:if="${party.etat != 'Tour noir' and party.etat != 'Tour blanc' }">
+			<div class="row">
+				<a class="btn btn-info offset-4" href="/party/add" role="button">Créer une nouvelle partie</a>
+			</div>
+			<br>
+			<div class="row">
+  				<a class="btn btn-info offset-4" href="/party/list" role="button">Retourner à la liste des parties</a>
+			</div>
+		</div>
+		
+		
+	</div>
+</body>
+</html>

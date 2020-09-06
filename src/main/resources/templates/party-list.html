@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout :: layout(~{::title}, ~{::content})}"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title th:fragment="title">Parties</title>
+</head>
+<body>
+	<div th:fragment="content">
+		<h1>Gestion des parties</h1>
+
+		<p>
+			<a th:href="@{/party/add}" class="btn btn-secondary" role="button"
+				aria-pressed="true">Créer une Partie</a>
+		</p>
+		<table class="table" style="text-align: center;">
+			<thread class="thread-dark">
+			<tr>
+				<th>#</th>
+				<th>Nom de la partie</th>
+				<th>Joueur Noir</th>
+				<th>Joueur Blanc</th>
+				<th>Etat</th>
+				<th>Taille</th>
+				<th>Continuer</th>
+				<th>Supprimer</th>
+			</tr>
+			</thread>
+			<tbody>
+				<tr th:each="party : ${partys}" th:object="${party}">
+					<td th:text="*{id}">id</td>
+					<td th:text="*{name}">Name</td>
+					<td th:text="*{joueur_blanc.pseudo}">Joueur blanc</td>
+					<td th:text="*{joueur_noir.pseudo}">Joueur Noir</td>
+					<td th:text="*{etat}">Etat de la partie</td>
+					<td th:text="|*{taille}X*{taille}|">Taille de la partie</td>
+					<td><a 
+						th:if="*{etat} == 'Tour noir' or *{etat} == 'Tour blanc'"
+						class="btn btn-success"
+						th:href="@{|/party/*{id}/play|}" role="button"><i
+							class="material-icons md-36">play_arrow</i></a>
+							<a 
+						th:if="*{etat} != 'Tour noir' and *{etat} != 'Tour blanc'"
+						class="btn btn-success"
+						th:href="@{|/party/*{id}/play|}" role="button"><i
+							class="material-icons md-36">visibility</i></a></td>
+					<td><a class="btn btn-danger"
+						th:href="@{|/party/*{id}/delete|}" role="button"><i
+							class="material-icons md-36">delete</i></a></td>
+				</tr>
+			</tbody>
+		</table>
+
+		<nav aria-label="Page navigation" th:if="${count > 0}">
+			<ul class="pagination">
+				<li class="page-item"
+					th:classappend="${partys.getNumber() == 0} ? disabled"><a
+					class="page-link" href="#"
+					th:href="@{/party/list(page=${partys.getNumber() - 1})}">Précédent</a>
+				</li>
+
+				<li class="page-item"
+					th:classappend="${partys.getNumber() == page -1} ? active"
+					th:each="page : ${#numbers.sequence(1, partys.totalPages)}">
+					<a
+					th:text="${page}" class="page-link" href="#"
+					th:href="@{/party/list(page=${page - 1})}"></a></li>
+
+				<li class="page-item"
+					th:classappend="${partys.getNumber() == partys.totalPages - 1} ? disabled">
+					<a class="page-link" href="#"
+					th:href="@{/party/list(page=${partys.getNumber() + 1})}">Suivant</a>
+				</li>
+			</ul>
+
+		</nav>
+	</div>
+</body>
+</html>
